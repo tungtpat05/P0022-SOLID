@@ -33,7 +33,7 @@ public class CandidateFactory {
     //Convert a word with format
     private static String capitalize(String str) {
         if (str == null || str.isEmpty()) {
-            throw new CandidateException("");
+            throw new CandidateException(constants.Message.ERR_STRING_INPUT);
         }
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
     }
