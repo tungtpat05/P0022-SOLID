@@ -4,7 +4,6 @@
  */
 package factory;
 
-import constants.CandidateType;
 import dto.CandidateDTO;
 import model.Candidate;
 import utils.CandidateException;
