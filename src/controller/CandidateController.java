@@ -1,6 +1,7 @@
 package controller;
 
 import dto.CandidateDTO;
+import factory.CandidateCreator;
 import factory.CandidateFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,15 +34,27 @@ public class CandidateController {
         }
         return false; //Not existed
     }
+    
+    //Create class name for CandidateFactory with type of DTO
+    private String classNameCandidateCreator() {
+        return String.format("factory.%sCandidateCreator", candidateDTO.getCandidateType().toString());
+    }
 
     //Create new Candidate
     public boolean createCandidate() {
 
         //Check ID existed or not. If not, add new candidate
         if (!isExistedID()) {
+            
+            //Take Candidate Creator class name
+            String className = classNameCandidateCreator();
 
-            //Create new candidate and add to list
-            Candidate candidate = CandidateFactory.factoryCandidate(candidateDTO);
+            //Define type of Candidate Creator
+            CandidateCreator creator = CandidateFactory.factoryCandidate(className);
+            
+            //Create new candidate
+            Candidate candidate = creator.createCandidate(candidateDTO);
+            
             candidateList.add(candidate);
             return true;
         }

@@ -4,8 +4,6 @@
  */
 package factory;
 
-import dto.CandidateDTO;
-import model.Candidate;
 import utils.CandidateException;
 
 /**
@@ -14,27 +12,13 @@ import utils.CandidateException;
  */
 public class CandidateFactory {
 
-    private static final String PACKAGE = "factory";
-
-    public static Candidate factoryCandidate(CandidateDTO dto) {
+    public static CandidateCreator factoryCandidate(String className) {
         try {
-            String type = dto.getCandidateType().toString();
-
-            String className = PACKAGE + "." + capitalize(type) + "CandidateCreator";
-
             Class<?> clazz = Class.forName(className);
             CandidateCreator creator = (CandidateCreator) clazz.getDeclaredConstructor().newInstance();
-            return creator.createCandidate(dto);
+            return creator;
         } catch (Exception e) {
             throw new CandidateException(constants.Message.ERR_CANDIDATE_TYPE);
         }
-    }
-
-    //Convert a word with format
-    private static String capitalize(String str) {
-        if (str == null || str.isEmpty()) {
-            throw new CandidateException(constants.Message.ERR_STRING_INPUT);
-        }
-        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
     }
 }
